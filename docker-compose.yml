@@ -1,0 +1,40 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - authentication
+      - task
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: admin-password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  authentication:
+    build:
+      context: ./services/authentication
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/authentication/src:/src
+    depends_on:
+      - db
+
+  task:
+    build:
+      context: ./services/task
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/task/src:/src
+    depends_on:
+      - db
+
+volumes:
+  mysql-data:
