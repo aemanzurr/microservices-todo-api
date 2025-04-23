@@ -4,14 +4,23 @@ WORKDIR /service
 
 COPY requirements.txt .
 
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    pkg-config \
+    default-libmysqlclient-dev \
+    gcc \
+    libssl-dev \
+    curl\
+    && rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./src ./src
 
 RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 
-COPY src .
-
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8001
 
-CMD ["fastapi", "run", "--host", "0.0.0.0", "application.py"]
+CMD ["fastapi", "run", "src/application.py", "--host", "0.0.0.0", "--port", "8001"]
