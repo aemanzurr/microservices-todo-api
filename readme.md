@@ -51,25 +51,31 @@ git clone https://github.com/tu-usuario/nombre-proyecto.git
 cd nombre-proyecto
 
 ### Paso 2: Construir las imágenes Docker
+
 Normalmente esto se hace dentro de la carpeta donde tienes el Dockerfile.
 
 docker build . -t [NOMBRE_IMAGEN] mysql:latest
 
 # Levantar motor de base de datos en local y k8s
+
 docker run --name [NOMBRE_CONTAINER] --network [NOMBRE_RED] -e [VARIABLE_DE_ENTORNO] -d mysql:latest
 
 # Acceder al motor de base de datos local y k8s (-p -> admin-password)
+
 docker exec -it [ID_CONTENEDOR] mysql -u root -p
 
 # Crear base de datos local y k8s
+
 CREATE DATABASE [nombre_de_base_de_datos];
 
 # Verificar creción local y k8s
+
 SHOW DATABASES;
 
 # Construir las demas imagenes y levantar los containers
 
 docker build . -t [NOMBRE_IMAGEN]
+
 docker run --name [NOMBRE_CONTAINER] --network [NOMBRE_RED] -e [VARIABLE_DE_ENTORNO] -d [NOMBRE_IMAGEN]
 
 ### Paso 3: Crear infraestructura con Terraform en AWS
