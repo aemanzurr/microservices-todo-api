@@ -81,12 +81,17 @@ docker run --name [NOMBRE_CONTAINER] --network [NOMBRE_RED] -e [VARIABLE_DE_ENTO
 ### Paso 3: Crear infraestructura con Terraform en AWS
 
 cd /microservicios-todo-api/terraform
+
 terraform init
+
 terraform plan
+
 terraform apply
 
 Esto creará los recursos necesarios en AWS como:
+
 - Cluster de EKS (Elastic Kubernetes Service)
+
 - VPC, subredes, roles, etc.
 
 ### Paso 4: Configurar acceso al cluster EKS
