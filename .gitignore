@@ -247,4 +247,20 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Ignorar carpetas generadas por Terraform
+.terraform/
+*.tfstate.backup
+crash.log
+*.log
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .terraform.lock.hcl file
+.terraform.lock.hcl
+
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,windows,linux
