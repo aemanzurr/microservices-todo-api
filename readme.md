@@ -106,8 +106,11 @@ kubectl apply -f /microservicios-todo-api/deployments/services.yaml
 ### Paso 6: Verificar el estado
 
 kubectl get nodes
+
 kubectl get pods
+
 kubectl get services
+
 kubectl get ingress
 
 ### Paso 7: Acceder a la API
