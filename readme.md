@@ -101,6 +101,7 @@ aws eks --region <your-region> update-kubeconfig --name <cluster-name>
 ### Step 5: Deploy services in Kubernetes
 
 kubectl apply -f /microservices-all-api/deployments/deployments.yaml
+
 kubectl apply -f /microservices-all-api/deployments/services. yaml
 
 ### Step 6: Check status
