@@ -1,86 +1,86 @@
-# Proyecto de Microservicios: Autenticación y Tareas (Parte DevOps)
+# Microservices Project: Authentication and Tasks (DevOps Part)
 
-## Descripción
+## Description
 
-Este proyecto consiste en el desarrollo de una arquitectura basada en microservicios utilizando Python. Se compone de dos servicios principales:
+This project consists of the development of a microservices based architecture using Python. It consists of two main services:
 
-- **Servicio de Autenticación**: Gestión de usuarios y autenticación con JWT.
-- **Servicio de Tareas (To-Do List)**: Permite a los usuarios crear, listar, actualizar y eliminar tareas.
+- **Authentication Service**: User management and authentication with JWT.
+- **Task Service (To-Do List)**: Allows users to create, list, update and delete tasks.
 
-El objetivo es poner en práctica principios de desarrollo moderno, incluyendo contenerización, orquestación y despliegue automatizado en la nube mediante herramientas DevOps.
+The goal is to implement modern development principles, including containerization, orchestration and automated deployment in the cloud using DevOps tools.
 
-## Tecnologías Utilizadas
+## Technologies Used
 
-- Python  
-- Docker  
-- kubectl  
-- AWS  
-- Terraform  
-
----
-
-## Arquitectura del Proyecto
-
-El proyecto está compuesto por **cuatro pods principales** desplegados en un clúster de Kubernetes:
-
-1. **auth-service**: expone endpoints para login, registro y validación de tokens.
-2. **task-service**: permite operaciones CRUD sobre tareas asociadas a usuarios autenticados.
-3. **nginx**: actúa como Ingress Controller (load balancer) y expone los servicios al exterior.
-4. **db**: base de datos que persiste la información de los microservicios.
-
-Todos los servicios están:
-
-- **Conectados en una misma red**, tanto en Docker como en Kubernetes, lo cual permite que se comuniquen internamente de manera segura.
-- Configurados con **variables de entorno** que especifican las direcciones de red internas (hostnames y puertos), facilitando la conexión entre microservicios (por ejemplo: el servicio de tareas sabe cómo comunicarse con el de autenticación, y ambos con la base de datos).
+- Python 
+- Docker 
+- kubectl 
+- AWS 
+- Terraform 
 
 ---
 
-## Guía de Implementación DevOps
+## Project Architecture
 
-### Requisitos Previos
+The project is composed of **four main pods** deployed on a Kubernetes cluster:
 
-- Cuenta activa en AWS  
-- Docker y kubectl instalados  
-- Terraform CLI instalado  
-- AWS CLI configurado con credenciales  
+1. **auth-service**: exposes endpoints for login, registration and token validation.
+2. **task-service**: enables CRUD operations on tasks associated with authenticated users.
+3. **nginx**: acts as Ingress Controller (load balancer) and exposes services to the outside.
+4. **db**: database that persists microservices information.
 
-### Paso 1: Clonar el repositorio
+All services are:
+
+- **Connected on the same network**, both in Docker and Kubernetes, allowing them to communicate securely internally.
+- Configured with **environment variables** that specify the internal network addresses (hostnames and ports), facilitating the connection between microservices (e.g.: the task service knows how to communicate with the authentication service, and both with the database).
+
+---
+
+## DevOps Implementation Guide
+
+### Prerequisites
+
+- Active AWS account 
+- Docker and kubectl installed 
+- Terraform CLI installed 
+- AWS CLI configured with credentials 
+
+### Step 1: Clone the repository
 
 bash
 git clone https://github.com/tu-usuario/nombre-proyecto.git
-cd nombre-proyecto
+cd project-name
 
-### Paso 2: Construir las imágenes Docker
+### Step 2: Build the Docker images
 
-Normalmente esto se hace dentro de la carpeta donde tienes el Dockerfile.
+Normally this is done inside the folder where you have the Dockerfile.
 
-docker build . -t [NOMBRE_IMAGEN] mysql:latest
+docker build . -t [IMAGE_NAME] mysql:latest
 
-### Levantar motor de base de datos en local y k8s
+### Raise database engine on local and k8s
 
-docker run --name [NOMBRE_CONTAINER] --network [NOMBRE_RED] -e [VARIABLE_DE_ENTORNO] -d mysql:latest
+docker run --name [CONTAINER_NAME] --network [NETWORK_NAME] -e [NETWORK_VARIABLE] -d mysql: latest
 
-### Acceder al motor de base de datos local y k8s (-p -> admin-password)
+### Access local and k8s database engine (-p -> admin-password)
 
 docker exec -it [ID_CONTENEDOR] mysql -u root -p
 
-### Crear base de datos local y k8s
+### Create local and k8s database
 
-CREATE DATABASE [nombre_de_base_de_datos];
+CREATE DATABASE [DATABASE_NAME];
 
-### Verificar creción local y k8s
+### Verify local and k8s creation
 
 SHOW DATABASES;
 
-### Construir las demas imagenes y levantar los containers
+### Build the other images and raise the containers
 
-docker build . -t [NOMBRE_IMAGEN]
+docker build . -t [IMAGE_NAME]
 
-docker run --name [NOMBRE_CONTAINER] --network [NOMBRE_RED] -e [VARIABLE_DE_ENTORNO] -d [NOMBRE_IMAGEN]
+docker run --name [CONTAINER_NAME] --network [NETWORK_NAME] -e [ENVIRONMENT_VARIABLE] -d [IMAGE_NAME]
 
-### Paso 3: Crear infraestructura con Terraform en AWS
+### Step 3: Create infrastructure with Terraform on AWS
 
-cd /microservicios-todo-api/terraform
+cd /microservices-all-api/terraform
 
 terraform init
 
@@ -88,22 +88,22 @@ terraform plan
 
 terraform apply
 
-Esto creará los recursos necesarios en AWS como:
+This will create the required resources on AWS such as:
 
-- Cluster de EKS (Elastic Kubernetes Service)
+- EKS (Elastic Kubernetes Service) cluster
 
-- VPC, subredes, roles, etc.
+- VPC, subnets, roles, etc.
 
-### Paso 4: Configurar acceso al cluster EKS
+### Step 4: Configure EKS cluster access
 
-aws eks --region <tu-región> update-kubeconfig --name <nombre-cluster>
+aws eks --region <your-region> update-kubeconfig --name <cluster-name>
 
-### Paso 5: Desplegar servicios en Kubernetes
+### Step 5: Deploy services in Kubernetes
 
-kubectl apply -f /microservicios-todo-api/deployments/deployments.yaml
-kubectl apply -f /microservicios-todo-api/deployments/services.yaml
+kubectl apply -f /microservices-all-api/deployments/deployments.yaml
+kubectl apply -f /microservices-all-api/deployments/services. yaml
 
-### Paso 6: Verificar el estado
+### Step 6: Check status
 
 kubectl get nodes
 
@@ -113,6 +113,6 @@ kubectl get services
 
 kubectl get ingress
 
-### Paso 7: Acceder a la API
+### Step 7: Access the API
 
-Una vez desplegado el Ingress, puedes acceder a los endpoints de autenticación y tareas desde tu navegador o Postman, usando la URL pública asignada por AWS (o un dominio personalizado si lo configuraste).
+Once Ingress is deployed, you can access the authentication and task endpoints from your browser or Postman, using the public URL assigned by AWS (or a custom domain if configured).
